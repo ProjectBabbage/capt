@@ -21,3 +21,17 @@ code {
   justify-content: center;
   width: 100%;
 }
+
+.full-width{
+  width: 100%;
+}
+
+.fc{
+  display: flex;
+  flex-direction: column;
+}
+
+.fr{
+  display: flex;
+  flex-direction: row;
+}

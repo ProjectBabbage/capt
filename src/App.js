@@ -3,13 +3,13 @@ import Box from "./components/box";
 import Arrow from "./components/arrow";
 import rootBox from "./diagram.json";
 import { useState, useEffect } from "react";
+import NavigationInput from "./components/navigationInput";
 
 
 function App() {
   const [currentBox, setCurrentBox] = useState(rootBox);
 
   useEffect(() => {
-    console.log(currentBox, '- Has changed')
 },[currentBox])
 
   let box_map = {};
@@ -42,17 +42,20 @@ function App() {
   const minSize = Math.min(window.innerWidth, window.innerHeight);
 
   return (
-    <Stage
-      width={minSize}
-      height={minSize}
-      style={{ backgroundColor: "white", width: minSize, height: minSize }}
-    >
-      <Layer>
-        <Text text="Capt, in progress.." fontSize={100}></Text>
-        {boxes}
-        {arrows}
-      </Layer>
-    </Stage>
+    <div>
+      <NavigationInput jsonTree={rootBox} current={currentBox}/>
+      <Stage
+        width={minSize}
+        height={minSize}
+        style={{ backgroundColor: "white", width: minSize, height: minSize }}
+      >
+        <Layer>
+          <Text text="Capt, in progress.." fontSize={100}></Text>
+          {boxes}
+          {arrows}
+        </Layer>
+      </Stage>
+    </div>
   );
 }
 
