@@ -74,13 +74,13 @@ function App() {
   return (
     <div>
       <NavigationInput jsonTree={rootBox} current={currentBox} />
+      <h2>Capt</h2>
       <Stage
         width={canvasSize}
         height={canvasSize}
         style={{ backgroundColor: "white", width: canvasSize, height: canvasSize }}
       >
         <Layer>
-          <Text text="Capt, in progress.." fontSize={100}></Text>
           {boxes}
           {arrows}
           {Object.entries(currentArrowTipsMap).flatMap(([id, value]) => [

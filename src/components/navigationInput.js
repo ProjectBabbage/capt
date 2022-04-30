@@ -5,10 +5,12 @@ function getPath(sep, jsonTree, current){
     if(jsonTree.id === current.id){
         return `${sep}${jsonTree.text}`;
     }
-    jsonTree.boxes.forEach((box) => {
-        let path = getPath(sep, box, current);
+    for(var i = 0 ; i < jsonTree.boxes.length ; i++) {
+        let path = getPath(sep, jsonTree.boxes[i], current);
         res = path === null ? null : `${sep}${jsonTree.text}${path}`;
-    })
+        if( res !== null)
+            break;
+    }
     return res;
 }
 
@@ -17,7 +19,7 @@ export default function NavigationInput({ jsonTree, current}){
     
     useEffect(() => {
         setPath(getPath("/",jsonTree, current));
-    })
+    }, [jsonTree, current])
 
     return (
         <div>
