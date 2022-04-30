@@ -1,13 +1,19 @@
 import { Rect, Text, Group } from "react-konva";
 
-
-function Box(props){
-    return (
-        <Group draggable>
-        <Rect width={50} height={50} fill="blue"/>
-        <Text text={props.text}/>
-        </Group>   
-    )
+function Box({ x, y, width, height, text }) {
+  return (
+    <Group draggable x={x} y={y}>
+      <Rect width={width} height={height} fill="lightblue" />
+      <Text
+        width={width}
+        height={height}
+        text={text}
+        align="center"
+        verticalAlign="middle"
+        fontSize={30}
+      />
+    </Group>
+  );
 }
 
 export default Box;

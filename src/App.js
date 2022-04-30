@@ -1,33 +1,34 @@
-import { useState } from 'react';
-import { Stage, Layer, Rect, Text } from 'react-konva';
-import Box from './components/box';
+import { Stage, Layer, Text } from "react-konva";
+import Box from "./components/box";
+import Arrow from "./components/arrow";
+import diagram from "./diagram.json";
 
 function App() {
-  const [ isDragging, setDragging ] = useState(false);
-  const [ x, setX ] = useState(50);
-  const [ y, setY ] = useState(50);
+  let box_map = {};
+  diagram.boxes.forEach((box) => {
+    box_map[box.id] = box;
+  });
+  const boxes = diagram.boxes.map((box) => (
+    <Box
+      x={box.x}
+      y={box.y}
+      width={100}
+      height={100}
+      text={box.text}
+      key={"box" + box.id}
+    />
+  ));
 
+  const arrows = diagram.arrows.map((arrow) => (
+    <Arrow origin={box_map[arrow.start]} target={box_map[arrow.end]} key={arrow.id}/>
+  ));
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <Box text="Text en prop"/>
-        <Rect width={50} height={50} fill="red"
-          onDragStart={() => {
-            setDragging(true);
-          }}
-          draggable
-          onDragEnd={(e) => {
-            setDragging(false);
-            setX(e.target.x());
-            setY(e.target.y());
-          }}/>
-        <Text
-            text="Text 1"
-            x={x}
-            y={y}
-            fill={isDragging ? 'green' : 'black'}            
-          />
+        <Text text="Capt, in progress.." fontSize={100}></Text>
+        {boxes}
+        {arrows}
       </Layer>
     </Stage>
   );
