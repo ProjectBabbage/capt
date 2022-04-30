@@ -31,7 +31,7 @@ export default function Arrow_({ origin, target }) {
   const originPoint = retrievePoint(origin);
   const targetPoint = retrievePoint(target);
   return (
-    <Group draggable>
+    <Group>
       <Arrow
         points={[originPoint.x, originPoint.y, targetPoint.x, targetPoint.y]}
         strokeWidth={5}
