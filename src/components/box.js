@@ -6,7 +6,7 @@ function Box({ box, onClickHandleBoxTransition, onMove }) {
   let boxCanvas = useRef();
   return (
     <Group draggable x={x} y={y} onDragMove={obj => onMove(obj.target.attrs.x, obj.target.attrs.y)} ref={boxCanvas} >
-      <Rect width={w} height={h} fill="lightblue" stroke="black" strokeWidth={4} />
+      <Rect width={w} height={h} fill="white" stroke="black" strokeWidth={4} />
       <Text
         width={w}
         height={h}

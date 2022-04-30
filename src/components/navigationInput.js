@@ -36,7 +36,7 @@ export default function NavigationInput({ jsonTree, current, handleBoxTransition
             <button
                 onClick={(evt) => {
                     // appeler handleBoxTransition avec le parent de current
-                    handleBoxTransitionBack(current.parent);
+                    handleBoxTransitionBack(current, current.parent);
                 }}>Previous</button>
         </div>
     )

@@ -22,14 +22,14 @@ function App() {
   });
   const [boxMap, setBoxMap] = useState(box_map);
 
-  function handleBoxTransitionBack(parentBox){
+  function handleBoxTransitionBack(fromBox, parentBox){
     // transition
     console.log(parentBox);
     // parentBox.parentCanvas // we will need this later
 
     currentViewWrapper.current.to({
-      x: parentBox.x ?? canvasSize/2,
-      y: parentBox.y ?? canvasSize/2,
+      x: fromBox.x,
+      y: fromBox.y,
       scaleX: parentBox.w ?? 0.2,
       scaleY: parentBox.h ?? 0.2,
       duration: 0.3,
