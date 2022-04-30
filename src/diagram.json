@@ -23,7 +23,7 @@
                 {
                     "start": {
                         "box": 3,
-                        "side": "TOP",
+                        "side": "RIGHT",
                         "percentage": 0.3
                     },
                     "end": {
@@ -31,26 +31,25 @@
                         "side": "LEFT",
                         "percentage": 0.3
                     },
-                    "id": 1
+                    "id": 2
                 }
             ],
-        
             "boxes": [
                 {
                     "id": 3,
-                    "text": "Child of miner",
-                    "x": 500,
-                    "y": 400,
-                    "h": 100,
-                    "w": 100,
+                    "text": "Hasher",
+                    "x": 300,
+                    "y": 300,
+                    "h": 150,
+                    "w": 150,
                     "boxes": [],
                     "arrows": []
                 },
                 {
                     "id": 4,
-                    "text": "Other of miner",
-                    "x": 700,
-                    "y": 400,
+                    "text": "hash cycle",
+                    "x": 300,
+                    "y": 500,
                     "h": 100,
                     "w": 100,
                     "boxes": [],
@@ -73,12 +72,13 @@
         {
             "start": {
                 "box": 1,
-                "side": "TOP",
+                "side": "RIGHT",
                 "percentage": 0.3
             },
             "end": {
-                "x": 600,
-                "y": 400
+                "box": 2,
+                "side": "LEFT",
+                "percentage": 0.3
             },
             "id": 1
         }

@@ -15,6 +15,7 @@ function App() {
 
   function handleBoxTransition(canvasObj, box) {
     startTransition(() => {
+      canvasObj.moveToTop();
       canvasObj.to({
         x:0,
         y:0,
