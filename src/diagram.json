@@ -1,31 +1,40 @@
 {
+    "id": 0,
+    "text": "Root",
     "boxes": [
         {
             "id": 1,
             "text": "Master",
             "x": 400,
             "y": 400,
-            "parent": null
-
+            "h": 100,
+            "w": 100
         },
         {
             "id": 2,
             "text": "Miner",
             "x": 600,
             "y": 400,
-            "parent": null
+            "h": 100,
+            "w": 100,
+            "boxes": [
+                {
+                    "id": 3,
+                    "text": "Child of miner",
+                    "x": 600,
+                    "y": 400,
+                    "h": 100,
+                    "w": 100
+                }
+            ]
         }
     ],
     "arrows": [
         {
             "start": 1,
             "end": 2 ,
-            "id": 1
-        },
-        {
-            "start": 2,
-            "end": 2,
-            "id": 2
+            "id": 1,
+            "side": 0
         }
     ]
 }
