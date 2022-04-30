@@ -103,22 +103,48 @@ function App() {
               />
             ))}
             {arrows.flatMap(({ id, start, end }) => [
-              <ArrowTip x={start.x} y={start.y} onMove={(x, y) => {
-                const rootBox = { ...currentBox };
-                const arrow = rootBox.arrows.find(b => b.id === id);
-                arrow.start.x = x;
-                arrow.start.y = y;
-                arrow.start.box = undefined;
-                setCurrentBox(rootBox);
-              }} onMoveEnd={() => console.log(hookOnBox(start, currentBox))} />,
-              <ArrowTip x={end.x} y={end.y} onMove={(x, y) => {
-                const rootBox = { ...currentBox };
-                const arrow = rootBox.arrows.find(b => b.id === id);
-                arrow.end.x = x;
-                arrow.end.y = y;
-                arrow.end.box = undefined;
-                setCurrentBox(rootBox);
-              }} onMoveEnd={() => console.log(hookOnBox(end, currentBox))} />,
+              <ArrowTip
+                x={start.x}
+                y={start.y}
+                onMove={(x, y) => {
+                  const rootBox = { ...currentBox };
+                  const arrow = rootBox.arrows.find(b => b.id === id);
+                  arrow.start.x = x;
+                  arrow.start.y = y;
+                  arrow.start.box = undefined;
+                  setCurrentBox(rootBox);
+                }}
+                onMoveEnd={() => {
+                  const candidate = hookOnBox(end, currentBox)
+                  if (candidate) {
+                    const rootBox = { ...currentBox };
+                    const arrow = rootBox.arrows.find(b => b.id === id);
+                    arrow.end = candidate;
+                    setCurrentBox(rootBox);
+                  }
+                }}
+              />,
+              <ArrowTip
+                x={end.x}
+                y={end.y}
+                onMove={(x, y) => {
+                  const rootBox = { ...currentBox };
+                  const arrow = rootBox.arrows.find(b => b.id === id);
+                  arrow.end.x = x;
+                  arrow.end.y = y;
+                  arrow.end.box = undefined;
+                  setCurrentBox(rootBox);
+                }}
+                onMoveEnd={() => {
+                  const candidate = hookOnBox(end, currentBox)
+                  if (candidate) {
+                    const rootBox = { ...currentBox };
+                    const arrow = rootBox.arrows.find(b => b.id === id);
+                    arrow.end = candidate;
+                    setCurrentBox(rootBox);
+                  }
+                }}
+              />,
             ])}
           </Group>
         </Layer>
