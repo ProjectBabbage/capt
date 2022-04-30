@@ -1,9 +1,9 @@
 import Konva from "konva";
-import { Stage, Layer, Text } from "react-konva";
+import { Stage, Layer } from "react-konva";
 import Box from "./components/box";
 import Arrow from "./components/arrow";
 import rootBox from "./diagram.json";
-import { useState, useEffect, useTransition } from "react";
+import { useState, useTransition } from "react";
 import NavigationInput from "./components/navigationInput";
 import ArrowTip from "./components/arrowTip";
 
@@ -13,12 +13,6 @@ function App() {
 
   const [, startTransition] = useTransition();
   const [currentBox, setCurrentBox] = useState(rootBox);
-
-  let box_map = {};
-  currentBox.boxes.forEach((box) => {
-    box_map[box.id] = box;
-  });
-  const [boxMap, setBoxMap] = useState(box_map);
 
   function handleBoxTransition(canvasObj, box) {
     startTransition(() => {
@@ -36,40 +30,31 @@ function App() {
             box_map[b.id] = b;
           });
 
-          setBoxMap(box_map);
-          setCurrentArrowTipsMap(buildTips(box.arrows, box_map))
           setCurrentBox(box);
         }
       })
     })
   }
 
-  const [currentArrowTipsMap, setCurrentArrowTipsMap] = useState(buildTips(currentBox.arrows, boxMap));
-
-  useEffect(() => {
-    setCurrentArrowTipsMap(buildTips(currentBox.arrows, boxMap));
-  }, [boxMap])
-
   const boxes = currentBox.boxes.map((box) => (
     <Box
       box={box}
       onClickSetCurrent={setCurrentBox}
       onMove={(x, y) => {
-        setBoxMap({ ...boxMap, [box.id]: { ...boxMap[box.id], x, y } })
+        const b = { ...currentBox }
+        const b1 = b.boxes.find(b2 => b2.id === box.id)
+        b1.x = x;
+        b1.y = y;
+
+        setCurrentBox(b);
       }}
       onClickHandleBoxTransition={handleBoxTransition}
       key={"box" + box.id}
     />
   ));
 
-  const arrows = currentBox.arrows.map((arrow) => (
-    currentArrowTipsMap[arrow.id] &&
-    <Arrow
-      startTip={currentArrowTipsMap[arrow.id].start}
-      endTip={currentArrowTipsMap[arrow.id].end}
-      key={arrow.id}
-    />
-  ));
+  const arrows = currentBox.arrows.map((arrow) => buildArrow(arrow, currentBox.boxes));
+
 
   return (
     <div>
@@ -82,10 +67,30 @@ function App() {
       >
         <Layer>
           {boxes}
-          {arrows}
-          {Object.entries(currentArrowTipsMap).flatMap(([id, value]) => [
-            <ArrowTip x={value.start.x} y={value.start.y} onMove={(x, y) => setCurrentArrowTipsMap({ ...currentArrowTipsMap, [id]: { ...currentArrowTipsMap[id], start: { x, y } } })} />,
-            <ArrowTip x={value.end.x} y={value.end.y} onMove={(x, y) => setCurrentArrowTipsMap({ ...currentArrowTipsMap, [id]: { ...currentArrowTipsMap[id], end: { x, y } } })} />
+          {arrows.map(a => (
+            <Arrow
+              startTip={a.start}
+              endTip={a.end}
+              key={a.id}
+            />
+          ))}
+          {arrows.flatMap(({ id, start, end }) => [
+            <ArrowTip x={start.x} y={start.y} onMove={(x, y) => {
+              const rootBox = { ...currentBox };
+              const arrow = rootBox.arrows.find(b => b.id === id);
+              arrow.start.x = x;
+              arrow.start.y = y;
+              arrow.start.box = undefined;
+              setCurrentBox(rootBox);
+            }} />,
+            <ArrowTip x={end.x} y={end.y} onMove={(x, y) => {
+              const rootBox = { ...currentBox };
+              const arrow = rootBox.arrows.find(b => b.id === id);
+              arrow.end.x = x;
+              arrow.end.y = y;
+              arrow.end.box = undefined;
+              setCurrentBox(rootBox);
+            }} />,
           ])}
         </Layer>
       </Stage>
@@ -117,14 +122,14 @@ const Side = {
   BOTTOM: "BOTTOM",
 }
 
-function buildTips(arrows, boxMap) {
+function buildArrow(arrow, boxes) {
   const buildTip = (tip) => {
     if (tip.box) {
-      return retrievePoint(tip, boxMap[tip.box])
+      return retrievePoint(tip, boxes.find(b => b.id === tip.box))
     }
     return { x: tip.x, y: tip.y };
   }
-  return Object.fromEntries(arrows.map(a => [a.id, { start: buildTip(a.start), end: buildTip(a.end) }]));
+  return { id: arrow.id, start: buildTip(arrow.start), end: buildTip(arrow.end) }
 }
 
 export default App;
