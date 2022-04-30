@@ -8,32 +8,35 @@ import { useState, useEffect } from "react";
 function App() {
   const [currentBox, setCurrentBox] = useState(rootBox);
 
-  useEffect(() => {
-    console.log(currentBox, '- Has changed')
-  }, [currentBox])
-
   const box_map = {};
   currentBox.boxes.forEach((box) => {
     box_map[box.id] = box;
   });
+  const [boxMap, setBoxMap] = useState(box_map);
+
+  useEffect(() => {
+    console.log(currentBox, '- Has changed')
+  }, [currentBox])
 
   const boxes = currentBox.boxes.map((box) => (
     <Box
       box={box}
       onClickSetCurrent={setCurrentBox}
+      onMove={(boxId, x, y) => {
+        setBoxMap({ ...boxMap, [boxId]: { ...boxMap[boxId], x, y } })
+      }}
       key={"box" + box.id}
     />
   ));
-
   const arrows = currentBox.arrows.map((arrow) => (
     <Arrow
       origin={{
         ...arrow.start,
-        box: box_map[arrow.start.box]
+        box: boxMap[arrow.start.box]
       }}
       target={{
         ...arrow.end,
-        box: box_map[arrow.end.box]
+        box: boxMap[arrow.end.box]
       }}
       key={arrow.id}
     />

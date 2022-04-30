@@ -42,9 +42,8 @@
                 "percentage": 0.3
             },
             "end": {
-                "box": 2,
-                "side": "LEFT",
-                "percentage": 0.3
+                "x": 600,
+                "y": 400
             },
             "id": 1
         }
