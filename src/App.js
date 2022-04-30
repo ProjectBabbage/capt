@@ -10,9 +10,9 @@ function App() {
 
   useEffect(() => {
     console.log(currentBox, '- Has changed')
-},[currentBox])
+  }, [currentBox])
 
-  let box_map = {};
+  const box_map = {};
   currentBox.boxes.forEach((box) => {
     box_map[box.id] = box;
   });
