@@ -21,32 +21,30 @@ function App() {
 
   function handleBoxTransitionBack(fromBox, parentBox) {
     // transition
-    console.log(parentBox);
     // parentBox.parentCanvas // we will need this later
-
-    currentViewWrapper.current.to({
-      x: fromBox.x,
-      y: fromBox.y,
-      scaleX: 0.2,
-      scaleY: 0.2,
-      duration: 0.3,
-      onFinish: () => {
-        console.log("We transitioned back to the parent !")
-        setCurrentBox(parentBox);
-        currentViewWrapper.current.to({
-          x: 0,
-          y: 0,
-          scaleX: 1,
-          scaleY: 1,
-          duration: 0,
-        });
-      }
-    })
+    if(parentBox)
+      currentViewWrapper.current.to({
+        x: fromBox.x,
+        y: fromBox.y,
+        scaleX: 0.2,
+        scaleY: 0.2,
+        duration: 0.3,
+        onFinish: () => {
+          setCurrentBox(parentBox);
+          currentViewWrapper.current.to({
+            x: 0,
+            y: 0,
+            scaleX: 1,
+            scaleY: 1,
+            duration: 0,
+          });
+        }
+      })
   }
 
   function handleBoxTransition(canvasObj, box) {
     box.parentCanvas = canvasObj;
-
+    let avancement = 0;
     startTransition(() => {
       canvasObj.moveToTop();
       canvasObj.to({
@@ -55,7 +53,13 @@ function App() {
         scaleX: canvasSize / box.w,
         scaleY: canvasSize / box.h,
         duration: 0.3,
-        easing: Konva.Easings.EaseInOut,
+        easing: Konva.Easings.EaseOut,
+        onUpdate: () => {
+          // called each frame during the transition
+          avancement = canvasObj.scaleX()/ (canvasSize/box.w);
+          if (avancement > 0.5) {
+          }
+        },
         onFinish: () => {
           setCurrentBox(box);
         }
