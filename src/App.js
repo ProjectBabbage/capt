@@ -5,7 +5,7 @@ import Arrow from "./components/arrow";
 import rootBox from "./diagram.json";
 import { useState, useTransition, useRef } from "react";
 import NavigationInput from "./components/navigationInput";
-import ArrowTip from "./components/arrowTip";
+import ArrowTip, { hookOnBox } from "./components/arrowTip";
 
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
     box.parent = currentBox;
   });
 
-  function handleBoxTransitionBack(fromBox, parentBox){
+  function handleBoxTransitionBack(fromBox, parentBox) {
     // transition
     console.log(parentBox);
     // parentBox.parentCanvas // we will need this later
@@ -85,7 +85,7 @@ function App() {
 
   return (
     <div id="app-root">
-      <NavigationInput jsonTree={rootBox} current={currentBox} handleBoxTransitionBack={handleBoxTransitionBack}/>
+      <NavigationInput jsonTree={rootBox} current={currentBox} handleBoxTransitionBack={handleBoxTransitionBack} />
       <Stage
         width={canvasSize}
         height={canvasSize}
@@ -110,7 +110,7 @@ function App() {
                 arrow.start.y = y;
                 arrow.start.box = undefined;
                 setCurrentBox(rootBox);
-              }} />,
+              }} onMoveEnd={() => console.log(hookOnBox(start, currentBox))} />,
               <ArrowTip x={end.x} y={end.y} onMove={(x, y) => {
                 const rootBox = { ...currentBox };
                 const arrow = rootBox.arrows.find(b => b.id === id);
@@ -118,7 +118,7 @@ function App() {
                 arrow.end.y = y;
                 arrow.end.box = undefined;
                 setCurrentBox(rootBox);
-              }} />,
+              }} onMoveEnd={() => console.log(hookOnBox(end, currentBox))} />,
             ])}
           </Group>
         </Layer>
