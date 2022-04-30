@@ -1,22 +1,23 @@
 import { Rect, Text, Group } from "react-konva";
 
-function Box({ x, y, width, height, text, id, onClick }) {
-  return (
-    <Group draggable x={x} y={y}>
-      <Rect width={width} height={height} fill="lightblue" />
-      <Text
-        width={width}
-        height={height}
-        text={text}
-        align="center"
-        verticalAlign="middle"
-        fontSize={30}
-        onClick={(evt) => {
-          if(evt.detail === 2) 
-            onClick(id);
-        }}/>
-    </Group>
-  );
+function Box({ box, onClickSetCurrent }) {
+    let {x, y, w, h, text, } = box;
+    return (
+        <Group draggable x={x} y={y}>
+        <Rect width={w} height={h} fill="lightblue" />
+        <Text
+            width={w}
+            height={h}
+            text={text}
+            align="center"
+            verticalAlign="middle"
+            fontSize={30}
+            onClick={(evt) => {
+            if(evt.evt.detail === 2) 
+                onClickSetCurrent(box);
+            }}/>
+        </Group>
+    );
 }
 
 export default Box;

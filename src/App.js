@@ -1,34 +1,31 @@
 import { Stage, Layer, Text } from "react-konva";
 import Box from "./components/box";
 import Arrow from "./components/arrow";
-import diagram from "./diagram.json";
+import rootBox from "./diagram.json";
 import { useState, useEffect } from "react";
 
+
 function App() {
-  const [currentBox, setCurrentBox] = useState(0);
+  const [currentBox, setCurrentBox] = useState(rootBox);
 
   useEffect(() => {
     console.log(currentBox, '- Has changed')
 },[currentBox])
 
   let box_map = {};
-  diagram.boxes.forEach((box) => {
+  currentBox.boxes.forEach((box) => {
     box_map[box.id] = box;
   });
-  const boxes = diagram.boxes.map((box) => (
+
+  const boxes = currentBox.boxes.map((box) => (
     <Box
-      x={box.x}
-      y={box.y}
-      width={box.w}
-      height={box.h}
-      text={box.text}
-      id={box.id}
-      onClick={setCurrentBox}
+      box={box}
+      onClickSetCurrent={setCurrentBox}
       key={"box" + box.id}
     />
   ));
 
-  const arrows = diagram.arrows.map((arrow) => (
+  const arrows = currentBox.arrows.map((arrow) => (
     <Arrow
       origin={{
         ...arrow.start,
