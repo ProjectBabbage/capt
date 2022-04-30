@@ -35,7 +35,7 @@ export default function Arrow_({ origin, target }) {
       <Arrow
         points={[originPoint.x, originPoint.y, targetPoint.x, targetPoint.y]}
         strokeWidth={5}
-        stroke="blue"
+        stroke="black"
       />
       {/* <Line points={[origin.x, origin.y, target.x, target.y]}  strokeWidth={5} stroke="blue" /> */}
     </Group>
