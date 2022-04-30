@@ -159,11 +159,7 @@
                 "side": "TOP",
                 "percentage": 0.8
             },
-<<<<<<< HEAD
-            "id": 2
-=======
             "id": 24
->>>>>>> 3cbbeec1882b71deee2a1d74b9b695144317745f
         },
         {
             "start": {
@@ -176,11 +172,7 @@
                 "side": "BOTTOM",
                 "percentage": 0.5
             },
-<<<<<<< HEAD
-            "id": 3
-=======
             "id": 25
->>>>>>> 3cbbeec1882b71deee2a1d74b9b695144317745f
         }
     ]
 }
