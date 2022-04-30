@@ -5,7 +5,7 @@
         {
             "id": 1,
             "text": "Master",
-            "x": 400,
+            "x": 250,
             "y": 400,
             "h": 200,
             "w": 200,
@@ -32,6 +32,19 @@
                         "percentage": 0.3
                     },
                     "id": 2
+                },
+                {
+                    "start": {
+                        "box": 4,
+                        "side": "RIGHT",
+                        "percentage": 0.6
+                    },
+                    "end": {
+                        "box": 3,
+                        "side": "LEFT",
+                        "percentage": 0.6
+                    },
+                    "id": 2
                 }
             ],
             "boxes": [
@@ -42,7 +55,18 @@
                     "y": 300,
                     "h": 150,
                     "w": 150,
-                    "boxes": [],
+                    "boxes": [
+                        {
+                            "id": 10,
+                            "text": "Hasher Son",
+                            "x": 250,
+                            "y": 400,
+                            "h": 200,
+                            "w": 200,
+                            "boxes": [],
+                            "arrows": []
+                        }
+                    ],
                     "arrows": []
                 },
                 {
@@ -52,7 +76,18 @@
                     "y": 500,
                     "h": 100,
                     "w": 100,
-                    "boxes": [],
+                    "boxes": [
+                        {
+                            "id": 11,
+                            "text": "hash cycle Son",
+                            "x": 250,
+                            "y": 400,
+                            "h": 200,
+                            "w": 200,
+                            "boxes": [],
+                            "arrows": []
+                        }
+                    ],
                     "arrows": []
                 },
                 {
@@ -62,10 +97,41 @@
                     "y": 700,
                     "h": 100,
                     "w": 100,
-                    "boxes": [],
+                    "boxes": [
+                        {
+                            "id": 12,
+                            "text": "Jambon Son",
+                            "x": 250,
+                            "y": 400,
+                            "h": 200,
+                            "w": 200,
+                            "boxes": [],
+                            "arrows": []
+                        },
+                        {
+                            "id": 13,
+                            "text": "Jambon Son 2",
+                            "x": 500,
+                            "y": 400,
+                            "h": 200,
+                            "w": 200,
+                            "boxes": [],
+                            "arrows": []
+                        }
+                    ],
                     "arrows": []
                 }
             ]
+        },
+        {
+            "id": 6,
+            "text": "Wallet",
+            "x": 425,
+            "y": 700,
+            "h": 200,
+            "w": 200,
+            "boxes": [],
+            "arrows": []
         }
     ],
     "arrows": [
@@ -79,6 +145,32 @@
                 "box": 2,
                 "side": "LEFT",
                 "percentage": 0.3
+            },
+            "id": 1
+        },
+        {
+            "start": {
+                "box": 2,
+                "side": "BOTTOM",
+                "percentage": 0.3
+            },
+            "end": {
+                "box": 6,
+                "side": "TOP",
+                "percentage": 0.8
+            },
+            "id": 1
+        },
+        {
+            "start": {
+                "box": 6,
+                "side": "TOP",
+                "percentage": 0.2
+            },
+            "end": {
+                "box": 1,
+                "side": "BOTTOM",
+                "percentage": 0.5
             },
             "id": 1
         }
