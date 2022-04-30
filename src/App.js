@@ -1,4 +1,4 @@
-import { Stage, Layer, Text, Rect } from "react-konva";
+import { Stage, Layer, Text } from "react-konva";
 import Box from "./components/box";
 import Arrow from "./components/arrow";
 import diagram from "./diagram.json";
@@ -30,8 +30,14 @@ function App() {
 
   const arrows = diagram.arrows.map((arrow) => (
     <Arrow
-      origin={box_map[arrow.start]}
-      target={box_map[arrow.end]}
+      origin={{
+        ...arrow.start,
+        box: box_map[arrow.start.box]
+      }}
+      target={{
+        ...arrow.end,
+        box: box_map[arrow.end.box]
+      }}
       key={arrow.id}
     />
   ));

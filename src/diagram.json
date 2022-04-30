@@ -31,10 +31,17 @@
     ],
     "arrows": [
         {
-            "start": 1,
-            "end": 2 ,
-            "id": 1,
-            "side": 0
+            "start": {
+                "box": 1,
+                "side": "TOP",
+                "percentage": 0.3
+            },
+            "end": {
+                "box": 2,
+                "side": "LEFT",
+                "percentage": 0.3
+            },
+            "id": 1
         }
     ]
 }

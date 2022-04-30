@@ -1,36 +1,39 @@
 import { Arrow, Group } from "react-konva";
 
-const LEFT = 0;
-const RIGHT = 1;
-const TOP = 2;
-const BOTTOM = 3;
+const Side = {
+  LEFT: "LEFT",
+  RIGHT: "RIGHT",
+  TOP: "TOP",
+  BOTTOM: "BOTTOM",
+}
 
 function retrievePoint(target) {
-  if (target.box !== undefined) {
-    const { x, y, height: h, width: w } = target.box;
-    const p = target.percentage;
-    switch (target.side) {
-      case LEFT:
-        return { x: x, y: y + p * h };
-      case RIGHT:
-        return { x: x + w, y: y + p * h };
-      case TOP:
-        return { x: x + p * w, y: y };
-      case BOTTOM:
-        return { x: x + p * w, y: y + h };
-      default:
-        break;
-    }
+  if (target.box === undefined) {
+    return target;
+  }
+  const { x, y, h, w } = target.box;
+  const p = target.percentage;
+  switch (target.side) {
+    case Side.LEFT:
+      return { x: x, y: y + p * h };
+    case Side.RIGHT:
+      return { x: x + w, y: y + p * h };
+    case Side.TOP:
+      return { x: x + p * w, y: y };
+    case Side.BOTTOM:
+      return { x: x + p * w, y: y + h };
+    default:
+      break;
   }
 }
 
-export default function Arrow_({ origin, target, originBox, targetBox }) {
-  origin = retrievePoint(originBox);
-  target = retrievePoint(targetBox);
+export default function Arrow_({ origin, target }) {
+  const originPoint = retrievePoint(origin);
+  const targetPoint = retrievePoint(target);
   return (
     <Group draggable>
       <Arrow
-        points={[origin.x + 50, origin.y + 50, target.x + 50, target.y + 50]}
+        points={[originPoint.x, originPoint.y, targetPoint.x, targetPoint.y]}
         strokeWidth={5}
         stroke="blue"
       />
