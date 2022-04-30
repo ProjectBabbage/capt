@@ -50,7 +50,7 @@ export function hookOnBox(tip, box) {
 
 function ArrowTip({ x, y, onMove, onMoveEnd }) {
   return (
-    <Circle draggable x={x} y={y} radius={10} fill="" onDragMove={obj => onMove(obj.target.attrs.x, obj.target.attrs.y)} onDragEnd={onMoveEnd} />
+    <Circle draggable x={x} y={y} radius={15} fill="" onDragMove={obj => onMove(obj.target.attrs.x, obj.target.attrs.y)} onDragEnd={onMoveEnd} />
   );
 }
 
