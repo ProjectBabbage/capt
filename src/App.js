@@ -14,6 +14,12 @@ function App() {
   const [, startTransition] = useTransition();
   const [currentBox, setCurrentBox] = useState(rootBox);
 
+  let box_map = {};
+  currentBox.boxes.forEach((box) => {
+    box_map[box.id] = box;
+  });
+  const [boxMap, setBoxMap] = useState(box_map);
+
   function handleBoxTransition(canvasObj, box) {
     startTransition(() => {
       canvasObj.moveToTop();
@@ -24,35 +30,25 @@ function App() {
         scaleY: canvasSize / box.h,
         duration: 0.35,
         easing: Konva.Easings.EaseInOut,
-        onFinish: () => setCurrentBox(box)
-      })
+        onFinish: () => {
+          let box_map = {};
+          box.boxes.forEach((b) => {
+            box_map[b.id] = b;
+          });
 
+          setBoxMap(box_map);
+          setCurrentArrowTipsMap(buildTips(box.arrows, box_map))
+          setCurrentBox(box);
+        }
+      })
     })
   }
 
-  const [boxMap, setBoxMap] = useState({});
+  const [currentArrowTipsMap, setCurrentArrowTipsMap] = useState(buildTips(currentBox.arrows, boxMap));
 
   useEffect(() => {
-    let box_map = {};
-    currentBox.boxes.forEach((box) => {
-      box_map[box.id] = box;
-    });
-    setBoxMap(box_map);
-  }, [currentBox])
-
-
-  const [currentArrowTipsMap, setCurrentArrowTipsMap] = useState({});
-
-  useEffect(() => {
-    const buildTips = (tip) => {
-      if (tip.box && tip.box in boxMap) {
-        return retrievePoint(tip, boxMap[tip.box])
-      }
-      return { x: tip.x, y: tip.y };
-    }
-    const arrowTipsMap = Object.fromEntries(currentBox.arrows.map(a => [a.id, { start: buildTips(a.start), end: buildTips(a.end) }]));
-    setCurrentArrowTipsMap(arrowTipsMap)
-  }, [boxMap, currentBox])
+    setCurrentArrowTipsMap(buildTips(currentBox.arrows, boxMap));
+  }, [boxMap])
 
   const boxes = currentBox.boxes.map((box) => (
     <Box
@@ -119,6 +115,16 @@ const Side = {
   RIGHT: "RIGHT",
   TOP: "TOP",
   BOTTOM: "BOTTOM",
+}
+
+function buildTips(arrows, boxMap) {
+  const buildTip = (tip) => {
+    if (tip.box) {
+      return retrievePoint(tip, boxMap[tip.box])
+    }
+    return { x: tip.x, y: tip.y };
+  }
+  return Object.fromEntries(arrows.map(a => [a.id, { start: buildTip(a.start), end: buildTip(a.end) }]));
 }
 
 export default App;
