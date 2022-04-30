@@ -1,20 +1,52 @@
 import Konva from "konva";
-import { Stage, Layer } from "react-konva";
+import { Stage, Layer, Group, Rect } from "react-konva";
 import Box from "./components/box";
 import Arrow from "./components/arrow";
 import rootBox from "./diagram.json";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import NavigationInput from "./components/navigationInput";
 import ArrowTip from "./components/arrowTip";
 
 
 function App() {
   const canvasSize = Math.min(window.innerWidth, window.innerHeight);
+  const currentViewWrapper = useRef();
 
   const [, startTransition] = useTransition();
   const [currentBox, setCurrentBox] = useState(rootBox);
 
+  currentBox.boxes.forEach((box) => {
+    box.parent = currentBox;
+  });
+
+  function handleBoxTransitionBack(fromBox, parentBox){
+    // transition
+    console.log(parentBox);
+    // parentBox.parentCanvas // we will need this later
+
+    currentViewWrapper.current.to({
+      x: fromBox.x,
+      y: fromBox.y,
+      scaleX: 0.2,
+      scaleY: 0.2,
+      duration: 0.3,
+      onFinish: () => {
+        console.log("We transitioned back to the parent !")
+        setCurrentBox(parentBox);
+        currentViewWrapper.current.to({
+          x: 0,
+          y: 0,
+          scaleX: 1,
+          scaleY: 1,
+          duration: 0,
+        });
+      }
+    })
+  }
+
   function handleBoxTransition(canvasObj, box) {
+    box.parentCanvas = canvasObj;
+
     startTransition(() => {
       canvasObj.moveToTop();
       canvasObj.to({
@@ -22,14 +54,9 @@ function App() {
         y: 0,
         scaleX: canvasSize / box.w,
         scaleY: canvasSize / box.h,
-        duration: 0.35,
+        duration: 0.3,
         easing: Konva.Easings.EaseInOut,
         onFinish: () => {
-          let box_map = {};
-          box.boxes.forEach((b) => {
-            box_map[b.id] = b;
-          });
-
           setCurrentBox(box);
         }
       })
@@ -57,41 +84,43 @@ function App() {
 
 
   return (
-    <div>
-      <NavigationInput jsonTree={rootBox} current={currentBox} />
-      <h2>Capt</h2>
+    <div id="app-root">
+      <NavigationInput jsonTree={rootBox} current={currentBox} handleBoxTransitionBack={handleBoxTransitionBack}/>
       <Stage
         width={canvasSize}
         height={canvasSize}
         style={{ backgroundColor: "white", width: canvasSize, height: canvasSize }}
       >
         <Layer>
-          {boxes}
-          {arrows.map(a => (
-            <Arrow
-              startTip={a.start}
-              endTip={a.end}
-              key={a.id}
-            />
-          ))}
-          {arrows.flatMap(({ id, start, end }) => [
-            <ArrowTip x={start.x} y={start.y} onMove={(x, y) => {
-              const rootBox = { ...currentBox };
-              const arrow = rootBox.arrows.find(b => b.id === id);
-              arrow.start.x = x;
-              arrow.start.y = y;
-              arrow.start.box = undefined;
-              setCurrentBox(rootBox);
-            }} />,
-            <ArrowTip x={end.x} y={end.y} onMove={(x, y) => {
-              const rootBox = { ...currentBox };
-              const arrow = rootBox.arrows.find(b => b.id === id);
-              arrow.end.x = x;
-              arrow.end.y = y;
-              arrow.end.box = undefined;
-              setCurrentBox(rootBox);
-            }} />,
-          ])}
+          <Group ref={currentViewWrapper} >
+            <Rect width={canvasSize} height={canvasSize} stroke="black" strokeWidth={10}></Rect>
+            {boxes}
+            {arrows.map(a => (
+              <Arrow
+                startTip={a.start}
+                endTip={a.end}
+                key={a.id}
+              />
+            ))}
+            {arrows.flatMap(({ id, start, end }) => [
+              <ArrowTip x={start.x} y={start.y} onMove={(x, y) => {
+                const rootBox = { ...currentBox };
+                const arrow = rootBox.arrows.find(b => b.id === id);
+                arrow.start.x = x;
+                arrow.start.y = y;
+                arrow.start.box = undefined;
+                setCurrentBox(rootBox);
+              }} />,
+              <ArrowTip x={end.x} y={end.y} onMove={(x, y) => {
+                const rootBox = { ...currentBox };
+                const arrow = rootBox.arrows.find(b => b.id === id);
+                arrow.end.x = x;
+                arrow.end.y = y;
+                arrow.end.box = undefined;
+                setCurrentBox(rootBox);
+              }} />,
+            ])}
+          </Group>
         </Layer>
       </Stage>
     </div>

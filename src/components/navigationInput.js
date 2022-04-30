@@ -14,7 +14,7 @@ function getPath(sep, jsonTree, current){
     return res;
 }
 
-export default function NavigationInput({ jsonTree, current}){
+export default function NavigationInput({ jsonTree, current, handleBoxTransitionBack}){
     const [path, setPath] = useState(getPath("/", jsonTree, current));
     
     useEffect(() => {
@@ -22,12 +22,22 @@ export default function NavigationInput({ jsonTree, current}){
     }, [jsonTree, current])
 
     return (
-        <div>
+        <div className="fc header">
             <input 
-                className="full-width" 
+                className="" 
                 type="text" 
                 value={path}
-                onChange={(evt) => setPath(evt.target.value)}/>
+                onChange={(evt) => {
+                    // vérifier si le path actuel correspond a une box dans le jsonTree
+
+                    // si oui, y naviguer
+                }}
+            />
+            <button
+                onClick={(evt) => {
+                    // appeler handleBoxTransition avec le parent de current
+                    handleBoxTransitionBack(current, current.parent);
+                }}>Previous</button>
         </div>
     )
 }
