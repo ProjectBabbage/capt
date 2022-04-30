@@ -1,22 +1,37 @@
-import { Stage, Layer, Text } from "react-konva";
+import Konva from "konva";
+import { Stage, Layer, Text} from "react-konva";
 import Box from "./components/box";
 import Arrow from "./components/arrow";
 import rootBox from "./diagram.json";
-import { useState, useEffect } from "react";
+import { useState, useTransition } from "react";
 
 
 function App() {
+  const canvasSize = Math.min(window.innerWidth, window.innerHeight);
+
+  const [, startTransition] = useTransition();
   const [currentBox, setCurrentBox] = useState(rootBox);
 
-  const box_map = {};
+  function handleBoxTransition(canvasObj, box) {
+    startTransition(() => {
+      canvasObj.to({
+        x:0,
+        y:0,
+        scaleX: canvasSize/box.w,
+        scaleY: canvasSize/box.h,
+        duration: 0.35,
+        easing: Konva.Easings.EaseInOut,
+        onFinish: () => setCurrentBox(box)
+      })
+      
+    })
+  }
+
+  let box_map = {};
   currentBox.boxes.forEach((box) => {
     box_map[box.id] = box;
   });
   const [boxMap, setBoxMap] = useState(box_map);
-
-  useEffect(() => {
-    console.log(currentBox, '- Has changed')
-  }, [currentBox])
 
   const boxes = currentBox.boxes.map((box) => (
     <Box
@@ -25,6 +40,7 @@ function App() {
       onMove={(boxId, x, y) => {
         setBoxMap({ ...boxMap, [boxId]: { ...boxMap[boxId], x, y } })
       }}
+      onClickHandleBoxTransition={handleBoxTransition}
       key={"box" + box.id}
     />
   ));
@@ -42,13 +58,11 @@ function App() {
     />
   ));
 
-  const minSize = Math.min(window.innerWidth, window.innerHeight);
-
   return (
     <Stage
-      width={minSize}
-      height={minSize}
-      style={{ backgroundColor: "white", width: minSize, height: minSize }}
+      width={canvasSize}
+      height={canvasSize}
+      style={{ backgroundColor: "white", width: canvasSize, height: canvasSize }}
     >
       <Layer>
         <Text text="Capt, in progress.." fontSize={100}></Text>

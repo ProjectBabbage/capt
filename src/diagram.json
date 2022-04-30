@@ -19,13 +19,48 @@
             "y": 400,
             "h": 100,
             "w": 100,
-            "arrows": [],
+            "arrows": [
+                {
+                    "start": {
+                        "box": 3,
+                        "side": "TOP",
+                        "percentage": 0.3
+                    },
+                    "end": {
+                        "box": 4,
+                        "side": "LEFT",
+                        "percentage": 0.3
+                    },
+                    "id": 1
+                }
+            ],
+        
             "boxes": [
                 {
                     "id": 3,
                     "text": "Child of miner",
-                    "x": 600,
+                    "x": 500,
                     "y": 400,
+                    "h": 100,
+                    "w": 100,
+                    "boxes": [],
+                    "arrows": []
+                },
+                {
+                    "id": 4,
+                    "text": "Other of miner",
+                    "x": 700,
+                    "y": 400,
+                    "h": 100,
+                    "w": 100,
+                    "boxes": [],
+                    "arrows": []
+                },
+                {
+                    "id": 5,
+                    "text": "Jambon",
+                    "x": 700,
+                    "y": 700,
                     "h": 100,
                     "w": 100,
                     "boxes": [],
