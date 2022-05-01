@@ -4,8 +4,8 @@ import { Stage, Layer, Group, Rect } from "react-konva";
 import rootBox from "./diagram.json";
 import { canvasConfig } from "./util";
 import Box from "./components/box";
-import {ArrowTip, Arrow_, buildArrow, hookOnBox } from "./components/arrow";
 import NavigationInput from "./components/navigationInput";
+import Arrows from "./components/arrows";
 
 
 function App() {
@@ -84,9 +84,6 @@ function App() {
     />
   ));
 
-  const arrows = currentBox.arrows.map((arrow) => buildArrow(arrow, currentBox.boxes));
-
-
   return (
     <div id="app-root">
       <NavigationInput jsonTree={rootBox} current={currentBox} handleBoxTransitionBack={handleBoxTransitionBack} />
@@ -99,57 +96,7 @@ function App() {
           <Group ref={currentViewWrapper} >
             <Rect width={canvasSize} height={canvasSize} stroke={canvasConfig.strokeColor} strokeWidth={canvasConfig.strokeWidth}></Rect>
             {boxes}
-            {arrows.map(a => (
-              <Arrow_
-                startTip={a.start}
-                endTip={a.end}
-                key={a.id}
-              />
-            ))}
-            {arrows.flatMap(({ id, start, end }) => [
-              <ArrowTip
-                x={start.x}
-                y={start.y}
-                onMove={(x, y) => {
-                  const rootBox = { ...currentBox };
-                  const arrow = rootBox.arrows.find(a => a.id === id);
-                  arrow.start.x = x;
-                  arrow.start.y = y;
-                  arrow.start.box = undefined;
-                  setCurrentBox(rootBox);
-                }}
-                onMoveEnd={() => {
-                  const candidate = hookOnBox(start, currentBox)
-                  if (candidate) {
-                    const rootBox = { ...currentBox };
-                    const arrow = rootBox.arrows.find(a => a.id === id);
-                    arrow.start = candidate;
-                    setCurrentBox(rootBox);
-                  }
-                }}
-              />,
-              <ArrowTip
-                x={end.x}
-                y={end.y}
-                onMove={(x, y) => {
-                  const rootBox = { ...currentBox };
-                  const arrow = rootBox.arrows.find(a => a.id === id);
-                  arrow.end.x = x;
-                  arrow.end.y = y;
-                  arrow.end.box = undefined;
-                  setCurrentBox(rootBox);
-                }}
-                onMoveEnd={() => {
-                  const candidate = hookOnBox(end, currentBox)
-                  if (candidate) {
-                    const rootBox = { ...currentBox };
-                    const arrow = rootBox.arrows.find(a => a.id === id);
-                    arrow.end = candidate;
-                    setCurrentBox(rootBox);
-                  }
-                }}
-              />,
-            ])}
+            <Arrows box={currentBox}/>
           </Group>
         </Layer>
       </Stage>
