@@ -1,17 +1,17 @@
+import { useState, useTransition, useRef } from "react";
 import Konva from "konva";
 import { Stage, Layer, Group, Rect } from "react-konva";
-import Box from "./components/box";
-import Arrow from "./components/arrow";
 import rootBox from "./diagram.json";
-import { useState, useTransition, useRef } from "react";
+import { canvasConfig } from "./util";
+import Box from "./components/box";
+import {ArrowTip, Arrow_, buildArrow, hookOnBox } from "./components/arrow";
 import NavigationInput from "./components/navigationInput";
-import ArrowTip, { hookOnBox } from "./components/arrowTip";
 
 
 function App() {
-  const canvasSize = Math.min(window.innerWidth, window.innerHeight);
+  const canvasSize = canvasConfig.size;
   const currentViewWrapper = useRef();
-
+  
   const [, startTransition] = useTransition();
   const [currentBox, setCurrentBox] = useState(rootBox);
 
@@ -93,14 +93,14 @@ function App() {
       <Stage
         width={canvasSize}
         height={canvasSize}
-        style={{ backgroundColor: "white", width: canvasSize, height: canvasSize }}
+        style={{ backgroundColor: canvasConfig.backgroundColor, width: canvasSize, height: canvasSize }}
       >
         <Layer>
           <Group ref={currentViewWrapper} >
-            <Rect width={canvasSize} height={canvasSize} stroke="black" strokeWidth={10}></Rect>
+            <Rect width={canvasSize} height={canvasSize} stroke={canvasConfig.strokeColor} strokeWidth={canvasConfig.strokeWidth}></Rect>
             {boxes}
             {arrows.map(a => (
-              <Arrow
+              <Arrow_
                 startTip={a.start}
                 endTip={a.end}
                 key={a.id}
@@ -157,39 +157,4 @@ function App() {
   );
 }
 
-function retrievePoint(tip, box) {
-  const { x, y, h, w } = box;
-  const p = tip.percentage;
-  switch (tip.side) {
-    case Side.LEFT:
-      return { x: x, y: y + p * h };
-    case Side.RIGHT:
-      return { x: x + w, y: y + p * h };
-    case Side.TOP:
-      return { x: x + p * w, y: y };
-    case Side.BOTTOM:
-      return { x: x + p * w, y: y + h };
-    default:
-      break;
-  }
-}
-
-const Side = {
-  LEFT: "LEFT",
-  RIGHT: "RIGHT",
-  TOP: "TOP",
-  BOTTOM: "BOTTOM",
-}
-
-function buildArrow(arrow, boxes) {
-  const buildTip = (tip) => {
-    if (tip.box) {
-      return retrievePoint(tip, boxes.find(b => b.id === tip.box))
-    }
-    return { x: tip.x, y: tip.y };
-  }
-  return { id: arrow.id, start: buildTip(arrow.start), end: buildTip(arrow.end) }
-}
-
 export default App;
-
