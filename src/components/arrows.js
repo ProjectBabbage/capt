@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ArrowTip, Arrow_, buildArrow, hookOnBox } from "./arrow";
+import { ArrowTip, Arrow, buildArrow, hookOnBox } from "./arrow";
 
 export default function Arrows({box}){
     const [currentBox, setCurrentBox] = useState(box);
@@ -12,7 +12,7 @@ export default function Arrows({box}){
     return(
         <React.Fragment>
             {arrows.map(a => (
-              <Arrow_
+              <Arrow
                 startTip={a.start}
                 endTip={a.end}
                 key={"arrow"+a.id}

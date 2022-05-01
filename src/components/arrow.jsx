@@ -1,5 +1,6 @@
-import { Side, norm, arrowConfig } from "../util";
-import { Arrow, Circle } from "react-konva";
+import { Side, arrowConfig } from "../config";
+import { norm } from "../utils";
+import { Arrow as ArrowKonva, Circle } from "react-konva";
 
 function projection(tip, side, id, x1, y1, x2, y2) {
   let x = x2 - x1;
@@ -74,9 +75,9 @@ export function buildArrow(arrow, boxes) {
   return { id: arrow.id, start: buildTip(arrow.start, boxes), end: buildTip(arrow.end, boxes) }
 }
 
-export function Arrow_({ startTip, endTip }) {
+export function Arrow({ startTip, endTip }) {
   return (
-    <Arrow
+    <ArrowKonva
       points={[startTip.x, startTip.y, endTip.x, endTip.y]}
       strokeWidth={arrowConfig.strokeWidth}
       stroke={arrowConfig.strokeColor}

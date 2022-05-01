@@ -2,8 +2,8 @@ import { useState, useTransition, useRef } from "react";
 import Konva from "konva";
 import { Stage, Layer, Group, Rect } from "react-konva";
 import rootBox from "./diagram.json";
-import { canvasConfig } from "./util";
-import Box from "./components/box";
+import { canvasConfig } from "./config";
+import { BoxElement } from "./components/box";
 import NavigationInput from "./components/navigationInput";
 import Arrows from "./components/arrows";
 
@@ -68,7 +68,7 @@ function App() {
   }
 
   const boxes = currentBox.boxes.map((box) => (
-    <Box
+    <BoxElement
       box={box}
       onClickSetCurrent={setCurrentBox}
       onMove={(x, y) => {
