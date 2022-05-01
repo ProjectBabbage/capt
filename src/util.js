@@ -24,5 +24,7 @@ export const boxConfig = {
 
 export const arrowConfig = {
   strokeColor: "black",
-  strokeWidth: 4
+  strokeWidth: 4,
+  snapRange: 30,
+  hitboxSize: 20
 }

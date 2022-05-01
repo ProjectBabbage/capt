@@ -112,18 +112,18 @@ function App() {
                 y={start.y}
                 onMove={(x, y) => {
                   const rootBox = { ...currentBox };
-                  const arrow = rootBox.arrows.find(b => b.id === id);
+                  const arrow = rootBox.arrows.find(a => a.id === id);
                   arrow.start.x = x;
                   arrow.start.y = y;
                   arrow.start.box = undefined;
                   setCurrentBox(rootBox);
                 }}
                 onMoveEnd={() => {
-                  const candidate = hookOnBox(end, currentBox)
+                  const candidate = hookOnBox(start, currentBox)
                   if (candidate) {
                     const rootBox = { ...currentBox };
-                    const arrow = rootBox.arrows.find(b => b.id === id);
-                    arrow.end = candidate;
+                    const arrow = rootBox.arrows.find(a => a.id === id);
+                    arrow.start = candidate;
                     setCurrentBox(rootBox);
                   }
                 }}
@@ -133,7 +133,7 @@ function App() {
                 y={end.y}
                 onMove={(x, y) => {
                   const rootBox = { ...currentBox };
-                  const arrow = rootBox.arrows.find(b => b.id === id);
+                  const arrow = rootBox.arrows.find(a => a.id === id);
                   arrow.end.x = x;
                   arrow.end.y = y;
                   arrow.end.box = undefined;
@@ -143,7 +143,7 @@ function App() {
                   const candidate = hookOnBox(end, currentBox)
                   if (candidate) {
                     const rootBox = { ...currentBox };
-                    const arrow = rootBox.arrows.find(b => b.id === id);
+                    const arrow = rootBox.arrows.find(a => a.id === id);
                     arrow.end = candidate;
                     setCurrentBox(rootBox);
                   }

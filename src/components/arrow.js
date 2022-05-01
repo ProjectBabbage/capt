@@ -26,7 +26,7 @@ function reduceProj(prev, next) {
 }
 
 export function hookOnBox(tip, box) {
-  let accu = { inside: false };
+  var acc = { inside: false };
   for (let i = 0; i < box.boxes.length; i++) {
     let { id, x, y, h, w } = box.boxes[i];
     let projs = [
@@ -36,11 +36,11 @@ export function hookOnBox(tip, box) {
       projection(tip, Side.BOTTOM, id, x, y + h, x + w, y + h)
     ];
     for (let j = 0; j < projs.length; j++) {
-      accu = reduceProj(tip, projs[j]);
+      acc = reduceProj(acc, projs[j]);
     }
   }
-  if (accu.inside && accu.dist < 10) {
-    return { box: accu.id, side: accu.side, percentage: accu.percentage };
+  if (acc.inside && acc.dist < arrowConfig.snapRange) {
+    return { box: acc.id, side: acc.side, percentage: acc.percentage };
   }
 }
 
@@ -66,7 +66,7 @@ function buildTip(tip, boxes) {
 
 export function ArrowTip({ x, y, onMove, onMoveEnd }) {
   return (
-    <Circle draggable x={x} y={y} radius={15} fill="" onDragMove={obj => onMove(obj.target.attrs.x, obj.target.attrs.y)} onDragEnd={onMoveEnd} />
+    <Circle draggable x={x} y={y} radius={arrowConfig.hitboxSize} fill="" onDragMove={obj => onMove(obj.target.attrs.x, obj.target.attrs.y)} onDragEnd={onMoveEnd} />
   );
 }
 
