@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowTip, Arrow_, buildArrow, hookOnBox } from "./arrow";
 
 export default function Arrows({box}){
     const [currentBox, setCurrentBox] = useState(box);
     const arrows = currentBox.arrows.map((arrow) => buildArrow(arrow, currentBox.boxes))
+
+    useEffect(() => {
+        setCurrentBox(box);
+    }, [box])
 
     return(
         <React.Fragment>
