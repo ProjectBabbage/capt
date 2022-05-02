@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Box } from "../types/box";
 
-function getPath(sep, jsonTree, current){
+function getPath(sep: string, jsonTree: Box, current: Box): string | null{
     let res = null
     if(jsonTree.id === current.id){
         return `${sep}${jsonTree.text}`;
@@ -14,7 +15,7 @@ function getPath(sep, jsonTree, current){
     return res;
 }
 
-export default function NavigationInput({ jsonTree, current, handleBoxTransitionBack}){
+export default function NavigationInput({ jsonTree, current, handleBoxTransitionBack}: {jsonTree: Box, current: Box, handleBoxTransitionBack: Function}){
     const [path, setPath] = useState(getPath("/", jsonTree, current));
     
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function NavigationInput({ jsonTree, current, handleBoxTransition
             <input 
                 className="" 
                 type="text" 
-                value={path}
+                value={path as string}
                 onChange={(evt) => {
                     // vérifier si le path actuel correspond a une box dans le jsonTree
 

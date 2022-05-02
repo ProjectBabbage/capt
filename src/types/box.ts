@@ -9,4 +9,5 @@ export type Box = {
     text: string,
     boxes: Box[],
     arrows: Arrow[],
+    parent: Box | null
   }
