@@ -4,16 +4,8 @@ import { Arrow as ArrowKonva, Circle } from "react-konva";
 import { Box } from "../types/box";
 import { Arrow } from "../types/arrow";
 import { builtTip, Tip } from "../types/tip";
+import { Projection } from "../types/projection";
 
-type Projection = {
-  inside: boolean,
-  dist: number,
-  id: number, 
-  percentage: number,
-  px: number,
-  py: number,
-  side: string
-}
 
 function projection(tip: builtTip, side: string, id: number, x1: number, y1: number, x2: number, y2: number) {
   let x = x2 - x1;
@@ -66,19 +58,19 @@ function buildTip(tip: Tip | builtTip, boxes: Box[]): builtTip {
   let tip_to_build = tip as Tip;
   const { x, y, h, w } = boxes.find(b => b.id === tip_to_build.box)!;
   const p = tip_to_build.percentage;
-  let ret = {x: -1, y: -1} as builtTip
+  let ret: builtTip = {x: -1, y: -1};
   switch (tip_to_build.side) {
     case Side.LEFT:
-      ret =  { x: x, y: y + p * h } as builtTip;
+      ret = { x: x, y: y + p * h };
       break;
     case Side.RIGHT:
-      ret =  { x: x + w, y: y + p * h } as builtTip;
+      ret =  { x: x + w, y: y + p * h };
       break;
     case Side.TOP:
-      ret =  { x: x + p * w, y: y }  as builtTip;
+      ret =  { x: x + p * w, y: y };
       break;
     case Side.BOTTOM:
-      ret = { x: x + p * w, y: y + h }  as builtTip;
+      ret = {x: x + p * w, y: y + h };
       break;
     default:
       break;
