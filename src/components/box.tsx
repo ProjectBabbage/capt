@@ -3,7 +3,7 @@ import { Rect, Text, Group } from "react-konva";
 import { boxConfig } from "../config";
 import { Box } from "../types/box";
 
-export function BoxElement({box, onClickHandleBoxTransition, onMove}: {box: Box; onClickHandleBoxTransition: Function, onMove: Function}) {
+export function BoxElement({box, onDoubleClick, onMove, onFocus, onExplicitFocus}: {box: Box; onDoubleClick: Function, onMove: Function, onFocus: Function, onExplicitFocus: Function}) {
   let { x, y, w, h, text } = box;
   let boxCanvas = useRef(null);
   return (
@@ -17,9 +17,13 @@ export function BoxElement({box, onClickHandleBoxTransition, onMove}: {box: Box;
         verticalAlign="middle"
         fontSize={30}
         onClick={(evt) => {
+          if (evt.evt.detail === 1)
+            onExplicitFocus(box)
           if (evt.evt.detail === 2)
-            onClickHandleBoxTransition(boxCanvas.current, box);
-        }} />
+           onDoubleClick(boxCanvas.current, box);
+        }} 
+        onMouseEnter={(evt) => onFocus(box)}
+        onMouseLeave={(evt) => onFocus(box.parent)}/>
     </Group>
   );
 }

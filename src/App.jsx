@@ -1,11 +1,12 @@
-import { useState, useTransition, useRef } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import Konva from "konva";
 import { Stage, Layer, Group, Rect } from "react-konva";
 import rootBox from "./diagram.json";
 import { canvasConfig } from "./config";
-import { BoxElement } from "./components/box";
 import NavigationInput from "./components/navigationInput";
 import Arrows from "./components/arrows";
+import Notes from "./components/notes";
+import Boxes from "./components/boxes";
 
 
 function App() {
@@ -14,10 +15,21 @@ function App() {
   
   const [, startTransition] = useTransition();
   const [currentBox, setCurrentBox] = useState(rootBox);
+  const [focusedBox, setFocusedBox] = useState(rootBox);
+  const [explicitelyFocusedBox, setExplicitelyFocusedBox] = useState(rootBox);
 
   currentBox.boxes.forEach((box) => {
     box.parent = currentBox;
   });
+
+  useEffect(() => {
+    
+    setExplicitelyFocusedBox(currentBox);
+  }, [currentBox])
+
+  useEffect(() => {
+    setFocusedBox(explicitelyFocusedBox)
+  }, [explicitelyFocusedBox])
 
   function handleBoxTransitionBack(fromBox, parentBox) {
     // transition
@@ -67,39 +79,44 @@ function App() {
     })
   }
 
-  const boxes = currentBox.boxes.map((box) => (
-    <BoxElement
-      box={box}
-      onClickSetCurrent={setCurrentBox}
-      onMove={(x, y) => {
-        const b = { ...currentBox }
-        const b1 = b.boxes.find(b2 => b2.id === box.id)
-        b1.x = x;
-        b1.y = y;
-
-        setCurrentBox(b);
-      }}
-      onClickHandleBoxTransition={handleBoxTransition}
-      key={"box" + box.id}
-    />
-  ));
-
   return (
     <div id="app-root">
-      <NavigationInput jsonTree={rootBox} current={currentBox} handleBoxTransitionBack={handleBoxTransitionBack} />
-      <Stage
-        width={canvasSize}
-        height={canvasSize}
-        style={{ backgroundColor: canvasConfig.backgroundColor, width: canvasSize, height: canvasSize }}
-      >
-        <Layer>
-          <Group ref={currentViewWrapper} >
-            <Rect width={canvasSize} height={canvasSize} stroke={canvasConfig.strokeColor} strokeWidth={canvasConfig.strokeWidth}></Rect>
-            {boxes}
-            <Arrows box={currentBox}/>
-          </Group>
-        </Layer>
-      </Stage>
+      <div className="flex-third">
+        <NavigationInput jsonTree={rootBox} current={currentBox} handleBoxTransitionBack={handleBoxTransitionBack} />
+      </div>
+  
+      <div className="flex-third">
+        <Stage
+          width={canvasSize}
+          height={canvasSize}
+          style={{ backgroundColor: canvasConfig.backgroundColor, width: canvasSize, height: canvasSize }}
+        >
+          <Layer>
+            <Group ref={currentViewWrapper} >
+              <Rect 
+                width={canvasSize} 
+                height={canvasSize} 
+                stroke={canvasConfig.strokeColor} 
+                strokeWidth={canvasConfig.strokeWidth}
+                onClick={(evt) => evt.target === evt.currentTarget ? setExplicitelyFocusedBox(currentBox) : null}/>
+
+              <Boxes
+                currentBox={currentBox}
+                onClickSetCurrent={setCurrentBox}
+                onClickHandleBoxTransition={handleBoxTransition}
+                onFocus={setFocusedBox}
+                onExplicitFocus={setExplicitelyFocusedBox}
+              />
+
+              <Arrows box={currentBox}/>
+            </Group>
+          </Layer>
+        </Stage>
+        </div>
+  
+      <div className="flex-third">
+        <Notes box={explicitelyFocusedBox.id === currentBox.id ? focusedBox : explicitelyFocusedBox}/> 
+      </div>
     </div>
   );
 }

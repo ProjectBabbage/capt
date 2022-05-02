@@ -23,7 +23,7 @@ export default function NavigationInput({ jsonTree, current, handleBoxTransition
     }, [jsonTree, current])
 
     return (
-        <div className="fc header">
+        <div className="fc">
             <input 
                 className="" 
                 type="text" 

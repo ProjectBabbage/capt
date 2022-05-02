@@ -22,14 +22,20 @@ code {
   width: 100%;
 }
 
-.app-root{
+#app-root{
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: center;
 }
 
 .full-width{
   width: 100%;
+}
+
+.flex-third{
+  flex: 1 33%
 }
 
 .fc{
@@ -42,13 +48,6 @@ code {
   flex-direction: row;
 }
 
-.header{
-  position: absolute;
-  margin-left: 25%;
-  z-index: 1000;
-  top: 10px;
-  width: 20em;
-}
 
 button{
   border-radius: 0;

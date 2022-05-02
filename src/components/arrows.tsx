@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { ArrowTip, Arrow, buildArrow, hookOnBox } from "./arrow";
+import { Box } from "../types/box";
+import { ArrowTip, ArrowElement, buildArrow, hookOnBox } from "./arrow";
 
-export default function Arrows({box}){
+export default function Arrows({box}: {box: Box}){
     const [currentBox, setCurrentBox] = useState(box);
     const arrows = currentBox.arrows.map((arrow) => buildArrow(arrow, currentBox.boxes))
 
@@ -12,7 +13,7 @@ export default function Arrows({box}){
     return(
         <React.Fragment>
             {arrows.map(a => (
-              <Arrow
+              <ArrowElement
                 startTip={a.start}
                 endTip={a.end}
                 key={"arrow"+a.id}
@@ -23,9 +24,9 @@ export default function Arrows({box}){
                 x={start.x}
                 y={start.y}
                 key={"tips"+id}
-                onMove={(x, y) => {
+                onMove={(x: number, y: number) => {
                   const rootBox = { ...box };
-                  const arrow = rootBox.arrows.find(a => a.id === id);
+                  const arrow = rootBox.arrows.find(a => a.id === id)!;
                   arrow.start.x = x;
                   arrow.start.y = y;
                   arrow.start.box = undefined;
@@ -35,7 +36,7 @@ export default function Arrows({box}){
                   const candidate = hookOnBox(start, box)
                   if (candidate) {
                     const rootBox = { ...box };
-                    const arrow = rootBox.arrows.find(a => a.id === id);
+                    const arrow = rootBox.arrows.find(a => a.id === id)!;
                     arrow.start = candidate;
                     setCurrentBox(rootBox);
                   }
@@ -45,9 +46,9 @@ export default function Arrows({box}){
                 x={end.x}
                 y={end.y}
                 key={"tipe"+id}
-                onMove={(x, y) => {
+                onMove={(x: number, y: number) => {
                   const rootBox = { ...box };
-                  const arrow = rootBox.arrows.find(a => a.id === id);
+                  const arrow = rootBox.arrows.find(a => a.id === id)!;
                   arrow.end.x = x;
                   arrow.end.y = y;
                   arrow.end.box = undefined;
@@ -57,7 +58,7 @@ export default function Arrows({box}){
                   const candidate = hookOnBox(end, box)
                   if (candidate) {
                     const rootBox = { ...box };
-                    const arrow = rootBox.arrows.find(a => a.id === id);
+                    const arrow = rootBox.arrows.find(a => a.id === id)!;
                     arrow.end = candidate;
                     setCurrentBox(rootBox);
                   }

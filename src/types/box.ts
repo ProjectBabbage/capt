@@ -7,6 +7,7 @@ export type Box = {
     w: number,
     h: number,
     text: string,
+    notes: string | null,
     boxes: Box[],
     arrows: Arrow[],
     parent: Box | null
