@@ -1,7 +1,7 @@
 {
     "id": 0,
     "text": "Root",
-    "notes": "top-level of this diagram",
+    "notes": "### Role of this diagram:\n Development\n![alt text](https://github.com/ProjectBabbage/capt/raw/main/capt.png 'Title')",
     "boxes": [
         {
             "id": 1,
