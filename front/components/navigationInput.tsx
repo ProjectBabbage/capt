@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box } from "../types/box";
+import { Box } from "../../common/types";
 
 function getPath(sep: string, jsonTree: Box, current: Box): string | null{
     let res = null
