@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box } from "../types/box";
+import { Box } from "../../common/types";
 import { BoxElement } from "./box";
 
 export default function Boxes({currentBox, onClickSetCurrent, onClickHandleBoxTransition, onFocus, onExplicitFocus}: {

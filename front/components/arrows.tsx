@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "../types/box";
+import { Box } from "../../common/types";
 import { ArrowTip, ArrowElement, buildArrow, hookOnBox } from "./arrow";
 
 export default function Arrows({box}: {box: Box}){

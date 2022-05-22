@@ -1,10 +1,7 @@
 import { Side, arrowConfig } from "../config";
-import { norm } from "../utils";
+import { norm } from "../../common/utils";
 import { Arrow as ArrowKonva, Circle } from "react-konva";
-import { Box } from "../types/box";
-import { Arrow } from "../types/arrow";
-import { builtTip, Tip } from "../types/tip";
-import { Projection } from "../types/projection";
+import { Box, Arrow, builtTip, Tip, Projection} from "../../common/types";
 
 
 function projection(tip: builtTip, side: string, id: number, x1: number, y1: number, x2: number, y2: number) {

@@ -1,4 +1,4 @@
-import { Box } from "../types/box";
+import { Box } from "../../common/types";
 import ReactMarkdown from 'react-markdown'
 import { useEffect, useState } from "react";
 

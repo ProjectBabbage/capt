@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Rect, Text, Group } from "react-konva";
 import { boxConfig } from "../config";
-import { Box } from "../types/box";
+import { Box } from "../../common/types";
 
 export function BoxElement({box, onDoubleClick, onMove, onFocus, onExplicitFocus}: {box: Box; onDoubleClick: Function, onMove: Function, onFocus: Function, onExplicitFocus: Function}) {
   let { x, y, w, h, text } = box;
